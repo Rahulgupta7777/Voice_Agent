@@ -1,0 +1,11 @@
+streamlit
+openai
+langchain
+langchain-openai
+faiss-cpu
+pypdf
+python-dotenv
+streamlit-mic-recorder
+numpy
+soundfile
+pydub
