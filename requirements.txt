@@ -12,3 +12,6 @@ pydub
 deepgram-sdk
 langgraph
 langchain-community
+
+duckduckgo-search
+ddgs

@@ -1,8 +1,7 @@
 import os
 from langchain_openai import ChatOpenAI
-from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langgraph.prebuilt import create_react_agent
 from langchain_community.tools.ddg_search.tool import DuckDuckGoSearchRun
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.tools import tool
 from datetime import datetime
 import pytz
@@ -29,15 +28,7 @@ class LLMEngine:
         Keep your responses reasonably brief, engaging, and easy to be read aloud (e.g. avoid complex markdown formatting, bullet points or URLs).
         """
         
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", system_prompt),
-            ("placeholder", "{chat_history}"),
-            ("human", "{input}"),
-            ("placeholder", "{agent_scratchpad}"),
-        ])
-        
-        agent = create_tool_calling_agent(self.llm, self.tools, prompt)
-        self.agent_executor = AgentExecutor(agent=agent, tools=self.tools, verbose=False)
+        self.agent = create_react_agent(self.llm, self.tools, state_modifier=system_prompt)
 
     def generate_response(self, query, context=""):
         """Generates a response using GPT-4o-mini with RAG context and internet search capabilities."""
@@ -47,8 +38,8 @@ class LLMEngine:
             full_query = query
         
         try:
-            response = self.agent_executor.invoke({"input": full_query})
-            return response["output"]
+            response = self.agent.invoke({"messages": [("user", full_query)]})
+            return response["messages"][-1].content
         except Exception as e:
             try:
                 fallback = self.llm.invoke(full_query)
