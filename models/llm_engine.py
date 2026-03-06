@@ -1,7 +1,8 @@
 import os
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
-from langchain_community.tools.ddg_search.tool import DuckDuckGoSearchRun
+from langchain_community.tools.ddg_search.tool import DuckDuckGoSearchResults
+from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
 from langchain_core.tools import tool
 from datetime import datetime
 import pytz
@@ -18,7 +19,8 @@ def get_current_date_time(query: str = "") -> str:
 class LLMEngine:
     def __init__(self):
         self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
-        self.search_tool = DuckDuckGoSearchRun()
+        wrapper = DuckDuckGoSearchAPIWrapper(max_results=3)
+        self.search_tool = DuckDuckGoSearchResults(api_wrapper=wrapper)
         self.tools = [self.search_tool, get_current_date_time]
         
         system_prompt = """
