@@ -1,34 +1,57 @@
 import os
-from openai import OpenAI
+from langchain_openai import ChatOpenAI
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_community.tools.ddg_search.tool import DuckDuckGoSearchRun
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.tools import tool
+from datetime import datetime
+import pytz
 from dotenv import load_dotenv
 
 load_dotenv()
 
+@tool
+def get_current_date_time(query: str = "") -> str:
+    """Useful for when you need to answer questions about the current date, time, or what day it is today. Input can be empty."""
+    tz = pytz.timezone('Asia/Kolkata')
+    return datetime.now(tz).strftime("%A, %B %d, %Y %I:%M %p")
+
 class LLMEngine:
     def __init__(self):
-        self.client = OpenAI()
-        self.system_prompt = """
+        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+        self.search_tool = DuckDuckGoSearchRun()
+        self.tools = [self.search_tool, get_current_date_time]
+        
+        system_prompt = """
         You are EchoMind AI, a highly conversational, friendly, and helpful voice assistant.
-        You will be provided with some context retrieved from a knowledge base.
-        Use this context to answer the user's questions naturally, as if you are having a conversation with them.
-        For example, if the context is a resume, you might say "Oh, I see your resume here! How can I help you with it?"
-        If the answer is not in the context, do NOT just say "I don't know based on the provided documents."
-        Instead, politely state that you couldn't find it in the documents securely, but you can try to answer based on your general knowledge if they'd like, or steer the conversation naturally.
+        You have access to the internet to answer real-time questions about geopolitics, news, facts, etc., and you know the current date and time.
+        You may be provided with context retrieved from a user-uploaded knowledge base. Focus on using it if it exists.
         Keep your responses reasonably brief, engaging, and easy to be read aloud (e.g. avoid complex markdown formatting, bullet points or URLs).
         """
+        
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", system_prompt),
+            ("placeholder", "{chat_history}"),
+            ("human", "{input}"),
+            ("placeholder", "{agent_scratchpad}"),
+        ])
+        
+        agent = create_tool_calling_agent(self.llm, self.tools, prompt)
+        self.agent_executor = AgentExecutor(agent=agent, tools=self.tools, verbose=False)
 
     def generate_response(self, query, context=""):
-        """Generates a response using GPT-4o-mini with RAG context."""
-        messages = [
-            {"role": "system", "content": self.system_prompt},
-            {"role": "user", "content": f"Context: {context}\n\nQuestion: {query}"}
-        ]
+        """Generates a response using GPT-4o-mini with RAG context and internet search capabilities."""
+        if context:
+            full_query = f"Context from uploaded docs: {context}\n\nUser Question: {query}"
+        else:
+            full_query = query
         
-        response = self.client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            temperature=0.7,
-            max_tokens=300
-        )
-        
-        return response.choices[0].message.content
+        try:
+            response = self.agent_executor.invoke({"input": full_query})
+            return response["output"]
+        except Exception as e:
+            try:
+                fallback = self.llm.invoke(full_query)
+                return fallback.content
+            except Exception:
+                return f"I encountered an error processing that: {str(e)}"

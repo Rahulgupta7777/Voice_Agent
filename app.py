@@ -25,27 +25,29 @@ st.markdown("""
     }
     
     .stApp {
-        background-color: #0b101a;
-        color: #e6edf3;
+        background-color: #0c141f;
+        color: #e2e8f0;
         font-family: 'Inter', -apple-system, sans-serif;
     }
     
     /* General Button Styling */
     .stButton>button {
         width: 100%;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        border-radius: 8px;
+        background-color: #2563eb;
         color: white;
         border: none;
         padding: 12px 24px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        background-color: #1d4ed8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         color: white;
     }
     
@@ -53,7 +55,7 @@ st.markdown("""
     .chat-row {
         display: flex;
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
     
     .row-user {
@@ -65,64 +67,65 @@ st.markdown("""
     }
     
     .chat-bubble {
-        padding: 16px 20px;
-        border-radius: 20px;
+        padding: 14px 18px;
+        border-radius: 12px;
         max-width: 80%;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-        font-size: 16px;
-        line-height: 1.5;
-        animation: fadeIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        font-size: 15px;
+        line-height: 1.6;
+        animation: fadeIn 0.3s ease forwards;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
+        from { opacity: 0; transform: translateY(5px); }
         to { opacity: 1; transform: translateY(0); }
     }
     
     .user-bubble {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        background-color: #2563eb;
         color: #ffffff;
-        border-bottom-right-radius: 4px;
+        border-bottom-right-radius: 2px;
     }
     
     .assistant-bubble {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background-color: #1e293b;
+        border: 1px solid #334155;
         color: #f8fafc;
-        border-bottom-left-radius: 4px;
+        border-bottom-left-radius: 2px;
     }
     
     .header-text {
         text-align: center;
-        margin-bottom: 8px;
-        background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 3.5rem;
-        font-weight: 900;
-        letter-spacing: -1px;
+        margin-bottom: 4px;
+        color: #f1f5f9;
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
     }
     
     .subtitle {
         text-align: center; 
-        color: #94a3b8; 
-        font-size: 1.15rem;
-        margin-bottom: 2.5rem;
+        color: #64748b; 
+        font-size: 1.05rem;
+        margin-bottom: 3rem;
+        font-weight: 400;
     }
     
     /* Improve scrollbar */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
     
     /* Text Input Styling */
     .stTextInput>div>div>input {
-        border-radius: 12px;
+        border-radius: 8px;
         background-color: #1e293b;
-        color: white;
+        color: #f1f5f9;
         border: 1px solid #334155;
-        padding: 12px 18px;
+        padding: 12px 16px;
+        font-size: 14px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
     }
     .stTextInput>div>div>input:focus {
         border-color: #3b82f6;
@@ -206,7 +209,7 @@ with chat_container:
                         b64 = base64.b64encode(f.read()).decode()
                         is_latest = (idx == len(st.session_state.chat_history) - 1)
                         autoplay = 'autoplay="true"' if is_latest else ''
-                        audio_html = f'<br><br><audio controls {autoplay} style="height: 36px; border-radius: 18px; width: 240px; outline: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
+                        audio_html = f'<br><br><audio controls {autoplay} style="height: 32px; border-radius: 16px; width: 220px; outline: none; opacity: 0.9;"><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
                 except Exception as e:
                     print(e)
                     pass
