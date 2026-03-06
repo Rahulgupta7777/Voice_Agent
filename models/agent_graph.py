@@ -61,9 +61,7 @@ class AgentGraph:
         return "retrieve"
 
     def route_end(self, state: AgentState):
-        if state.get("has_audio_input", False):
-            return "synthesize"
-        return "end"
+        return "synthesize"
 
     def transcribe_node(self, state: AgentState):
         audio_path = state.get("input_audio_path")

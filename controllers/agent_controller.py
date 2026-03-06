@@ -42,4 +42,7 @@ class AgentController:
         
         # Invoke LangGraph
         final_state = self.agent_graph.invoke(initial_state)
-        return final_state.get("output_text", "")
+        return {
+            "response": final_state.get("output_text", ""),
+            "audio_path": final_state.get("output_audio_path", "")
+        }

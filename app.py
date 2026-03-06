@@ -118,6 +118,12 @@ st.markdown("""
         border-color: #00d1ff;
         box-shadow: 0 0 0 1px #00d1ff;
     }
+    
+    /* Sidebar Styling */
+    [data-testid="stSidebar"] {
+        background-color: #1a242d;
+        border-right: 1px solid #283743;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -249,9 +255,13 @@ with center_col:
     if st.button("Send Message ➤", use_container_width=True):
         if text_input:
             with st.spinner("EchoMind is thinking..."):
-                response = st.session_state.controller.process_text_input(text_input)
+                result = st.session_state.controller.process_text_input(text_input)
                 st.session_state.chat_history.append({"role": "user", "content": text_input})
-                st.session_state.chat_history.append({"role": "assistant", "content": response})
+                st.session_state.chat_history.append({
+                    "role": "assistant", 
+                    "content": result["response"],
+                    "audio": result["audio_path"]
+                })
                 st.rerun()
 
 # --- Extra Footer Padding to avoid cutting off at bottom ---
