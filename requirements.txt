@@ -9,3 +9,6 @@ streamlit-mic-recorder
 numpy
 soundfile
 pydub
+deepgram-sdk
+langgraph
+langchain-community
