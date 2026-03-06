@@ -21,34 +21,31 @@ st.markdown("""
     .block-container {
         padding-top: 1.5rem !important;
         padding-bottom: 2rem !important;
-        max-width: 900px !important;
+        max-width: 800px !important;
     }
     
     .stApp {
-        background-color: #0c141f;
+        background-color: #11181e;
         color: #e2e8f0;
-        font-family: 'Inter', -apple-system, sans-serif;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
     }
     
     /* General Button Styling */
     .stButton>button {
         width: 100%;
-        border-radius: 8px;
-        background-color: #2563eb;
-        color: white;
+        border-radius: 6px;
+        background-color: #00d1ff;
+        color: #000000;
         border: none;
-        padding: 12px 24px;
+        padding: 10px 20px;
         font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.3px;
+        font-weight: 600;
         transition: all 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     .stButton>button:hover {
-        background-color: #1d4ed8;
+        background-color: #00bced;
+        color: #000000;
         transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        color: white;
     }
     
     /* Chat Layout */
@@ -69,44 +66,35 @@ st.markdown("""
     .chat-bubble {
         padding: 14px 18px;
         border-radius: 12px;
-        max-width: 80%;
+        max-width: 85%;
         font-size: 15px;
         line-height: 1.6;
-        animation: fadeIn 0.3s ease forwards;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(5px); }
-        to { opacity: 1; transform: translateY(0); }
     }
     
     .user-bubble {
-        background-color: #2563eb;
-        color: #ffffff;
-        border-bottom-right-radius: 2px;
+        background-color: #1e2a33;
+        color: #f8fafc;
+        border-bottom-right-radius: 4px;
     }
     
     .assistant-bubble {
-        background-color: #1e293b;
-        border: 1px solid #334155;
-        color: #f8fafc;
-        border-bottom-left-radius: 2px;
+        background-color: transparent;
+        color: #e2e8f0;
     }
     
     .header-text {
         text-align: center;
         margin-bottom: 4px;
         color: #f1f5f9;
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 700;
         letter-spacing: -0.5px;
     }
     
     .subtitle {
         text-align: center; 
-        color: #64748b; 
-        font-size: 1.05rem;
+        color: #94a3b8; 
+        font-size: 1rem;
         margin-bottom: 3rem;
         font-weight: 400;
     }
@@ -117,19 +105,18 @@ st.markdown("""
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
     
-    /* Text Input Styling */
+    /* Text Input Styling - Dark Slate */
     .stTextInput>div>div>input {
-        border-radius: 8px;
-        background-color: #1e293b;
-        color: #f1f5f9;
-        border: 1px solid #334155;
+        border-radius: 6px;
+        background-color: #1a242d;
+        color: #e2e8f0;
+        border: 1px solid #283743;
         padding: 12px 16px;
         font-size: 14px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
     }
     .stTextInput>div>div>input:focus {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 1px #3b82f6;
+        border-color: #00d1ff;
+        box-shadow: 0 0 0 1px #00d1ff;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -192,7 +179,7 @@ with chat_container:
             st.markdown(f'''
             <div class="chat-row row-user">
                 <div class="chat-bubble user-bubble">
-                    🗣️ <strong>You</strong><br><br>{chat["content"]}
+                     <strong>Asked:</strong><br><br>{chat["content"]}
                 </div>
             </div>
             ''', unsafe_allow_html=True)
