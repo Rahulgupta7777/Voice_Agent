@@ -28,7 +28,7 @@ class LLMEngine:
         Keep your responses reasonably brief, engaging, and easy to be read aloud (e.g. avoid complex markdown formatting, bullet points or URLs).
         """
         
-        self.agent = create_react_agent(self.llm, self.tools, state_modifier=system_prompt)
+        self.agent = create_react_agent(self.llm, self.tools, prompt=system_prompt)
 
     def generate_response(self, query, context=""):
         """Generates a response using GPT-4o-mini with RAG context and internet search capabilities."""

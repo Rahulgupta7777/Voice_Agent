@@ -146,10 +146,6 @@ import base64
 
 # --- Sidebar ---
 with st.sidebar:
-    st.title("⚙️ Settings")
-    st.markdown("---")
-    
-    st.subheader("📚 Knowledge Base")
     st.markdown("Upload documents for EchoMind to reference in conversation.")
     uploaded_files = st.file_uploader("Upload PDF or TXT files", type=['pdf', 'txt'], accept_multiple_files=True, label_visibility="collapsed")
     
