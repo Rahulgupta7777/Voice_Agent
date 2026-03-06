@@ -25,34 +25,49 @@ st.markdown("""
     }
     
     .stApp {
-        background-color: #11181e;
+        background-color: #0A0F14;
         color: #e2e8f0;
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     
-    /* General Button Styling */
+    /* General Button Styling with Glow */
     .stButton>button {
         width: 100%;
-        border-radius: 6px;
+        border-radius: 8px;
         background-color: #00d1ff;
         color: #000000;
         border: none;
         padding: 10px 20px;
         font-size: 14px;
         font-weight: 600;
-        transition: all 0.2s ease;
+        transition: all 0.25s ease;
+        box-shadow: 0 0 12px rgba(0, 209, 255, 0.25);
     }
     .stButton>button:hover {
         background-color: #00bced;
+        box-shadow: 0 0 20px rgba(0, 209, 255, 0.45);
         color: #000000;
-        transform: translateY(-1px);
+        transform: translateY(-2px);
+    }
+    
+    /* Secondary button styling (Clear Memory) */
+    [data-testid="stSidebar"] .stButton>button {
+        background-color: transparent;
+        color: #e2e8f0;
+        border: 1px solid #283743;
+        box-shadow: none;
+    }
+    [data-testid="stSidebar"] .stButton>button:hover {
+        background-color: #1a242d;
+        border-color: #e2e8f0;
+        color: #ffffff;
     }
     
     /* Chat Layout */
     .chat-row {
         display: flex;
         width: 100%;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
     }
     
     .row-user {
@@ -72,57 +87,73 @@ st.markdown("""
     }
     
     .user-bubble {
-        background-color: #1e2a33;
+        background-color: #141C24;
         color: #f8fafc;
+        border: 1px solid #1f2b36;
         border-bottom-right-radius: 4px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     
     .assistant-bubble {
         background-color: transparent;
         color: #e2e8f0;
+        border-left: 2px solid #00d1ff;
+        border-radius: 0;
+        padding-left: 18px;
+        margin-left: 4px;
+        padding-top: 8px;
+        padding-bottom: 8px;
     }
     
     .header-text {
         text-align: center;
         margin-bottom: 4px;
         color: #f1f5f9;
-        font-size: 2rem;
+        font-size: 2.2rem;
         font-weight: 700;
         letter-spacing: -0.5px;
     }
     
     .subtitle {
         text-align: center; 
-        color: #94a3b8; 
-        font-size: 1rem;
-        margin-bottom: 3rem;
+        color: #64748b; 
+        font-size: 1.05rem;
+        margin-bottom: 3.5rem;
         font-weight: 400;
     }
     
     /* Improve scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    ::-webkit-scrollbar-thumb { background: #283743; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3b5062; }
     
-    /* Text Input Styling - Dark Slate */
+    /* Text Input Styling - Sleek Slate */
     .stTextInput>div>div>input {
-        border-radius: 6px;
-        background-color: #1a242d;
+        border-radius: 8px;
+        background-color: #141C24;
         color: #e2e8f0;
-        border: 1px solid #283743;
-        padding: 12px 16px;
+        border: 1px solid #1f2b36;
+        padding: 14px 16px;
         font-size: 14px;
+        transition: all 0.2s;
     }
     .stTextInput>div>div>input:focus {
         border-color: #00d1ff;
         box-shadow: 0 0 0 1px #00d1ff;
+        background-color: #18222c;
     }
     
     /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #1a242d;
-        border-right: 1px solid #283743;
+        background-color: #0A0F14;
+        border-right: 1px solid #1a242d;
+    }
+    
+    [data-testid="stFileUploader"] {
+        background-color: #141C24;
+        border-color: #283743;
+        border-radius: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -170,7 +201,7 @@ with st.sidebar:
         st.rerun()
 
 # --- Main Page ---
-st.markdown('<h1 class="header-text">EchoMind AI</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="header-text">EchoMind <span style="color: #00d1ff;">AI</span></h1>', unsafe_allow_html=True)
 st.markdown("<p class='subtitle'>Your intelligent, conversational voice assistant.</p>", unsafe_allow_html=True)
 
 # --- Chat Display ---
@@ -198,7 +229,7 @@ with chat_container:
                         b64 = base64.b64encode(f.read()).decode()
                         is_latest = (idx == len(st.session_state.chat_history) - 1)
                         autoplay = 'autoplay="true"' if is_latest else ''
-                        audio_html = f'<br><br><audio controls {autoplay} style="height: 32px; border-radius: 16px; width: 220px; outline: none; opacity: 0.9;"><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
+                        audio_html = f'<br><audio controls {autoplay} style="height: 38px; border-radius: 8px; margin-top: 10px; width: 240px; outline: none; opacity: 0.9; color-scheme: dark;"><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
                 except Exception as e:
                     print(e)
                     pass

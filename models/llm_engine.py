@@ -19,7 +19,7 @@ def get_current_date_time(query: str = "") -> str:
 class LLMEngine:
     def __init__(self):
         self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
-        wrapper = DuckDuckGoSearchAPIWrapper(max_results=3)
+        wrapper = DuckDuckGoSearchAPIWrapper()
         self.search_tool = DuckDuckGoSearchResults(api_wrapper=wrapper)
         self.tools = [self.search_tool, get_current_date_time]
         
